@@ -30,6 +30,7 @@ export default {
                 if (!res) {
                     throw new Error("Cound not create user")
                 }
+                res.user.updateProfile({ displayName: displayName.value })
                 console.log(res.user)
             }
             catch (err) {
