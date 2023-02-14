@@ -7,6 +7,7 @@
                     <input type="email" class="form-control" placeholder="example@gmail.com" v-model="email">
                     <input type="password" class="form-control my-4" placeholder="Password" v-model="password">
                 </div>
+                <div v-if="error" class="mt-2 text-danger fw-bolder">{{ error }}</div>
                 <button class=" btn btn-primary mx-auto btn-lg">Login</button>
             </form>
         </div>
@@ -15,17 +16,22 @@
 
 <script>
 import { ref } from '@vue/reactivity'
-import {auth} from '../firebase/config';
+import useLogin from '../composables/useLogin';
+
 export default {
     setup() {
         let email = ref("");
         let password = ref("");
 
+        let { error, signIn } = useLogin();
+
         let login = async () => {
-            let res = await auth.createUserWithEmailAndPassword(email.value, password.value);
-            console.log(res.value)
+            let res = await signIn(email.value, password.value)
+            if (res) {
+                console.log(res.user)
+            }
         }
-        return {email, password, login }
+        return {email, password, login,error }
     }
 }
 </script>
