@@ -1,8 +1,8 @@
 <template>
-  <nav class="d-flex justify-content-between p-4">
+  <nav class="d-flex justify-content-between p-4" v-if="user">
     <div class="">
-        <p class="fw-bolder mb-0">Hi Display name </p>
-        <p class="text-black-50">Logged in as email </p>
+        <p class="fw-bolder mb-0">Hi {{ user.displayName }} </p>
+        <p class="text-black-50">Logged in as {{ user.email }} </p>
     </div>
     <div class="">
         <button class="btn btn-primary rounded-5 fw-bolder py-2 px-3" @click="logOut">Logout</button>
@@ -13,6 +13,7 @@
 <script>
 import { ref } from '@vue/reactivity';
 import useLogout from "../composables/useLogout"
+import getUser from "../composables/getUser"
 
 export default {
     setup() {
@@ -23,7 +24,9 @@ export default {
             await logoutSystem();
         }
 
-        return {logOut,error}
+       let {user} = getUser();
+
+        return {logOut,error,user}
     }
 }
 </script>
