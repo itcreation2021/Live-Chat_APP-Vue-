@@ -8,7 +8,8 @@
                     <input type="email" class="form-control my-4" placeholder="example@gmail.com" v-model="email">
                     <input type="password" class="form-control" placeholder="Password" v-model="password">
                 </div>
-                <button class="btn btn-primary mt-4 mx-auto btn-lg">Sign Up</button>
+                <div v-if="error" class="mt-2 text-danger fw-bolder">{{ error }}</div>
+                <button class="btn btn-primary mt-3 mx-auto btn-lg">Sign Up</button>
             </form>
         </div>
     </div>
@@ -29,10 +30,12 @@ export default {
 
         let signUp = async() => {
             let res = await createAccount(email.value, password.value, displayName.value)
-           console.log(res.user)
+            if (res) {
+                console.log(res.user)
+            }
         }
 
-        return {displayName,email,password,signUp}
+        return {displayName,email,password,signUp,error}
     }
 }
 </script>
