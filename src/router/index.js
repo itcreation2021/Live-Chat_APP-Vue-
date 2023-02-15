@@ -7,21 +7,29 @@ const routes = [
   {
     path: "/",
     name: "Welcome",
-    component: Welcome
+    component: Welcome,
+    beforeEnter(to, from, next) {
+      let user = auth.currentUser;
+      if (!user) {
+        next(); //permit enter route
+      } else {
+        next({ name: "Chatroom" });
+      }
+    },
   },
   {
-    path: '/chatroom',
+    path: "/chatroom",
     name: "Chatroom",
     component: Chatroom,
-    beforeEnter(to,from,next) {
+    beforeEnter(to, from, next) {
       let user = auth.currentUser;
       if (user) {
-        next();
+        next(); //permit enter route
       } else {
-        next({name:"Welcome"})
+        next({ name: "Welcome" });
       }
-    }
-  }
+    },
+  },
 ];
 
 const router = createRouter({
